@@ -1,14 +1,16 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - kabilanma
 
-repo_description_lines_max: 2
+repo_description_lines_max: 1
 
 github_repos:
-  - alshedivat/al-folio
-  - jekyll/jekyll
-  - twbs/bootstrap
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - mathjax/MathJax
-  - jpswalsh/academicons
+  - EmInReLab/BugsInKube
+  - KabilanMA/p2p-torrent-client
+  - KabilanMA/Sign_language_Detection_SSD_1
+  - KabilanMA/Sign_language_Detection_Yolov3
+  - KabilanMA/Vehicle_Detection_YoloV3_CPU
+  - KabilanMA/AudioMNIST-Classifier
+  - KabilanMA/playwright-project-config
+  - KabilanMA/chess-game-ai
+  # - KabilanMA/airline-reservation
+  # - EmInReLab/paas-fuzzer

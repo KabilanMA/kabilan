@@ -1,25 +1,21 @@
 ---
 layout: about
-title: about
+title: About
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: Visiting Scholar @NUS
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
-  more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
 
 news: true # includes a list of news items
-selected_papers: true # includes a list of papers marked as "selected={true}"
+selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+Hi! I’m Kabilan Mahathevan, currently a visiting scholar at the National University of Singapore’s School of Computing, where I work in the [TEST Lab](https://nus-test.github.io/) with [Prof. Manuel Rigger](https://www.manuelrigger.at/). During my undergraduate studies, I had the privilege of working with [Dr. Sunimal Rathnayake](https://sunimalr.staff.uom.lk/) and [Dr. Ridwan Shariffdeen](https://rshariffdeen.com/) on fuzz testing cloud platforms, which sparked my journey into academia.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+I am deeply passionate about improving software performance, particularly in the area of compilers, in light of hardware limitations. As AI continues to evolve with more specialized hardware chips and machine learning techniques, there’s a growing need for efficient integration between these technologies and hardware. I aim to contribute to developing solutions that connect these components in ways that maximize performance, even with limited resources (Not limited to AI).
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+Teaching is another passion of mine. One of the main reasons I’m pursuing a PhD is my desire to become a professor and help nurture the next generation. My love for teaching began after high school when I volunteered to teach in remote areas of Sri Lanka. Since then, it has only grown stronger. During my undergraduate studies, I conducted peer-group sessions and served as a teaching assistant for Operating Systems, Theory of Computing, and Database Management Systems. I’m always open to opportunities for volunteer teaching, so if you ever need someone, feel free to reach out—I’d be happy to help.
