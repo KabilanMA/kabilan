@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://kabilanma.github.io/kabilan/sitemap.xml
+Sitemap: https://kabilanma.github.io//sitemap.xml
