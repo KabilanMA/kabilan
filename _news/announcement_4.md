@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Joined the artifact evaluation committee at [FAST'25](https://www.usenix.org/conference/fast25)
+Joined the artifact evaluation committee at [FAST'25](https://www.usenix.org/conference/fast25/call-for-artifacts)
