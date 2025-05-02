@@ -2,13 +2,13 @@
 layout: post
 title: From Atheist to Believer
 date: 2025-02-17 06:01:00
-description: This is a Story Happened in My Personal Which Changed My Perspective
+description: This is a Story Happened in My Personal Life Which Changed My Perspective
 tags: formatting
 categories: story
 thumbnail: assets/img/ghost.png
 ---
 
-#### This is a Story Happened in My Personal Which Changed My Perspective
+#### This is a Story Happened in My Personal Life Which Changed My Perspective
 
 ---
 
@@ -44,5 +44,4 @@ A few days later, when we met again, my friend’s family was back inside their 
 
 This experience shook me to the core. It made me realize that there are things in this world beyond human understanding. We perceive only a tiny fraction of reality, and there is so much more that we might never comprehend.
 
-
-Since then, I have embraced my roots and started following Sanatana Dharma. Even if there is no god, I believe this path provides wisdom, discipline, and a sense of purpose. I no longer dismiss the unknown so easily, and I walk forward with a newfound respect for the mysteries of life.
+Since then, I no longer dismiss the unknow so easily. For a fact, I know that there are things out there our mind and reality cannot easily accept and I am ready to accept it and walk with a newfound respect for the mysteries of life.
