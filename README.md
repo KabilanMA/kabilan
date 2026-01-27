@@ -1,0 +1,1 @@
+To Push code to the university server make change to the `./_config.yml` and change the url attribute to `/~kabilan` and baseurl to `https://people.cs.vt.edu` and then run the `deploy.py` file.
