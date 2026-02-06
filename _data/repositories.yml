@@ -6,11 +6,6 @@ repo_description_lines_max: 1
 github_repos:
   - EmInReLab/BugsInKube
   - KabilanMA/p2p-torrent-client
-  - KabilanMA/Sign_language_Detection_SSD_1
-  - KabilanMA/Sign_language_Detection_Yolov3
-  - KabilanMA/Vehicle_Detection_YoloV3_CPU
-  - KabilanMA/AudioMNIST-Classifier
-  - KabilanMA/playwright-project-config
-  - KabilanMA/chess-game-ai
+  - KabilanMA/TenSure
   # - KabilanMA/airline-reservation
   # - EmInReLab/paas-fuzzer
