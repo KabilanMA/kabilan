@@ -1,12 +1,38 @@
 {
   "basics": {
     "name :": "Kabilan Mahathevan",
-    "occupation": "",
+    "occupation": "PhD Student",
     "image": "",
-    "email :": "kabilanen ^at^ gmail ^.^ com",
+    "email :": "kabilanen[@]gmail[.]com",
     "phone": "",
-    "Highest Education Qualification :": "BSc.Eng(Hons) - University of Moratuwa",
+    "Highest Education Qualification :": "PhD in Computer Science - Reading",
     "url": "https://kabilan.info",
     "summary": ""
-  }
+  },
+  "work": [
+    {
+      "name": "Software Practice Pte Ltd.",
+      "position": "Software Engineer Intern",
+      "location": "Singapore",
+      "startDate": "2023-01-02",
+      "endDate": "2023-06-10",
+      "summary": "I worked on LEAP project for Building And Construction Authority (BCA), Singapore. Specifically, Wwrked with the front-end team to create a better and user-friendly interface."
+    },
+    {
+      "name": "University of Moratuwa",
+      "position": "Teaching Assistant",
+      "location": "Colombo, Sri Lanka",
+      "startDate": "2023-07-10",
+      "endDate": "2024-06-09",
+      "summary": "I worked as a TA for CS3063 - Theory of Computing, CS2043 - Operating Systems, and CS3043 Database System."
+    },
+    {
+      "name": "Sysco LABS",
+      "position": "Software Engineer",
+      "location": "Colombo, Sri Lanka",
+      "startDate": "2024-06-10",
+      "endDate": "2024-09-12",
+      "summary": "I worked on a competition organizing and judging platform from backend to frontend."
+    }
+  ]
 }
