@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Congratulations to [Junwen](https://wanteatfruit.github.io/) 🎉 for his paper "Dialect-Agnostic SQL Parsing via LLM-Based Segmentation" accepted to SIGMOD'2026.
+Our paper _Dialect-Agnostic SQL Parsing via LLM-Based Segmentation_ has been accepted to SIGMOD 2026. Congratulations to [Junwen](https://wanteatfruit.github.io/) for leading this work. 🎉
