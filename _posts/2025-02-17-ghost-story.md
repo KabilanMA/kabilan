@@ -5,7 +5,7 @@ date: 2025-02-17 06:01:00
 description: This is a Story Happened in My Personal Life Which Changed My Perspective
 tags: formatting
 categories: story
-thumbnail: assets/img/ghost.png
+thumbnail: assets/img/blogs/ghost.png
 ---
 
 #### This is a Story Happened in My Personal Life Which Changed My Perspective
