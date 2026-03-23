@@ -12,6 +12,9 @@ toc:
   beginning: false
 
 ---
+<p style="text-align: right;">
+      <a href="../iscc-python/">Next</a>      
+</p>
 
 ### Introduction
 ---
@@ -133,7 +136,7 @@ Here, the outer loop variable `i` dictates the major time step `t1`, and the inn
 
 If the compiler decides it would be faster to swap the order of these loops (running `j` on the outside and `i` on the inside), it doesn't need to write the C code immediately; it just changes the schedule relation.
 
-`{[i,j] -> [t1,t2]: t1=j and t2=i}`
+`{[i,j] -> [t1,t2]: t2=i and t1=j}`
 
 By setting `t1 = j` and `t2 = i`, we have effectively made `j` the outer loop (the major time step) and `i` the inner loop (the minor time step).
 
@@ -144,3 +147,7 @@ The golden rule of these optimizations is that all new schedules are only valid 
 ### Conclusion
 
 By abstracting iteration spaces into Sets, memory accesses into Relations, and ordering constraints into Dependencies, we can mathematically reason about program behavior. This abstraction allows advanced compilers to explore a wide range of valid program transformations, such as loop interchange, by simply manipulating these mathematical objects. The ultimate goal is to find an optimal Schedule that preserves the program's correctness (by respecting all dependencies) while significantly improving performance.
+
+<p style="text-align: right;">
+      <a href="../iscc-python/">Next</a>      
+</p>
