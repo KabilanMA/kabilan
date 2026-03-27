@@ -13,7 +13,7 @@ toc:
 
 ---
 <p style="text-align: right;">
-      <a href="../iscc-python/">Next</a>      
+      <a href="../islpy-basic/">Next</a>      
 </p>
 
 ### Introduction
@@ -31,25 +31,25 @@ In ISL, a basic Set represents a collection of integer points bounded by linear 
 
 If we have a standard C loop:
 ```c
-for (int i = 0; i < 10; i++) {
+for (int i = 0; i < 5; i++) {
     // loop body
 }
 ```
-The iteration variable is `i`. and the bounds dictate that `i` starts at 0 and stops before 10. In ISL syntax, the Set representing all the values of `i` during execution is written as:
+The iteration variable is `i`. and the bounds dictate that `i` starts at 0 and stops before 5. In ISL syntax, the Set representing all the values of `i` during execution is written as:
 
-`{ [i] : 0 <= i < 10 }`
+`{ [i] : 0 <= i < 5 }`
 
 Example 2:
 
 ```c
-for (int i = 0; i < 10; i++) {
+for (int i = 0; i < 5; i++) {
     for (int j = 0; j < i; j++) {
         // loop body
     }
 }
 ```
 
-`{ [i,j] : 0 <= i < 10 and 0 <= j < i }`
+`{ [i,j] : 0 <= i < 5 and 0 <= j < i }`
 
 ### Relations
 
@@ -60,7 +60,7 @@ The syntax uses an arrow `->` to connect them:
 `{ [domain_variables] -> [range_variables] : conditions }`
 
 ```c
-for (int i = 0; i < 10; i++) {
+for (int i = 0; i < 5; i++) {
     for (int j = 0; j < i; j++) {
         A[i + j] = 0; 
     }
@@ -72,12 +72,12 @@ We want to map the loop iterations [i,j] to the specific memory index they acces
 In ISL, if we apply an access Relation to an iteration Set, the calculator outputs a new Set representing the accessed memory locations (Finds the loop's memory footprint).
 
 Let's take a simpler 1D example:
-- __Iteration Set__ (S): `{ [i] : 0 <= i < 10 }` (Loop from 0 to 9)
+- __Iteration Set__ (S): `{ [i] : 0 <= i < 5 }` (Loop from 0 to 4)
 - __Access Relation__ (R): `{ [i] -> [k] : k = i+2 }` (Accessing `A[i+2]`)
 
-When we apply `R` to `S` in the ISL calculator, it computes the range of `k`. Since `i` ranges from 0 to 9, `k` will range from 2 to 11. The resulting memory footprint Set is: 
+When we apply the Access Relation to the Iteration Set in the ISL calculator, it computes the range of memory indices accessed. Since `i` ranges from 0 to 4, and each iteration accesses `A[i+2]`, the resulting memory footprint Set is: 
 
-`{ [k] : 2 <= k <= 11 }`
+`{ [k] : 2 <= k <= 6 }`
 
 ### Data Dependencies
 
@@ -85,7 +85,7 @@ Dependencies tell the compiler if it is safe to run loop iterations in parallel 
 
 Let's look at a classic example:
 ```c
-for (int i = 1; i < 10; i++) {
+for (int i = 1; i < 5; i++) {
     A[i] = A[i-1] + 5;
 }
 ```
@@ -95,7 +95,7 @@ In ISL, we represent these dependencies just like memory accesses: as __Relation
 
 If we use `[s]` to represent the source iteration and `[t]` to represent the target iteration that depends on it, i.e., the target iteration always happens exactly one step after its source iteration, we can write the ISL relation as follows:
 
-`{[s] -> [t]: t=s+1}`
+`{ [s] -> [t]: t=s+1 }`
 
 Which means target iteration `t` must wait for the source iteration `s` to finish. Because of this specific flow dependency, the compiler knows it cannot run all iterations of this loop at the same time in parallel. Every step strictly relies on the previous one being completed.
 
@@ -110,19 +110,19 @@ Because a Schedule is just a mapping from one space (iteration) to another (time
 Let's look at out simple 1D loop again:
 
 ```c
-for (int i = 0; i < 10; i++) {
+for (int i = 0; i < 5; i++) {
     // loop body
 }
 ```
 The most basic schedule is just the original execution order, where iteration `i` simply executes at time `i` (`t = i`). Which can be written in ISL relation as follows:
 
-`{[i] -> [t]: t=i}`
+`{ [i] -> [t]: t=i }`
 
 Now, let's look at a classic compiler optimization that schedules allow us to do easily: __Loop Interchange__. This is often used to improve memory locality (cache performance) when accessing multi-dimensional arrays.
 
 Imagine we have a standard 2D loop:
 ```c
-for (int i = 0; i < 10; i++) {
+for (int i = 0; i < 5; i++) {
     for (int j = 0; j < 10; j++>) {
         // loop body
     }
@@ -130,13 +130,13 @@ for (int i = 0; i < 10; i++) {
 ```
 The original sequential schedule for this uses a 2D time vector `[t1, t2]`. It looks like this:
 
-`{[i,j] -> [t1,t2]: t1=i and t2=j}`
+`{ [i,j] -> [t1,t2]: t1=i and t2=j }`
 
 Here, the outer loop variable `i` dictates the major time step `t1`, and the inner loop variable `j` dictates the minor time step `t2`.
 
 If the compiler decides it would be faster to swap the order of these loops (running `j` on the outside and `i` on the inside), it doesn't need to write the C code immediately; it just changes the schedule relation.
 
-`{[i,j] -> [t1,t2]: t2=i and t1=j}`
+`{ [i,j] -> [t1,t2]: t1=j and t2=i }`
 
 By setting `t1 = j` and `t2 = i`, we have effectively made `j` the outer loop (the major time step) and `i` the inner loop (the minor time step).
 
@@ -149,5 +149,5 @@ The golden rule of these optimizations is that all new schedules are only valid 
 By abstracting iteration spaces into Sets, memory accesses into Relations, and ordering constraints into Dependencies, we can mathematically reason about program behavior. This abstraction allows advanced compilers to explore a wide range of valid program transformations, such as loop interchange, by simply manipulating these mathematical objects. The ultimate goal is to find an optimal Schedule that preserves the program's correctness (by respecting all dependencies) while significantly improving performance.
 
 <p style="text-align: right;">
-      <a href="../iscc-python/">Next</a>      
+      <a href="../islpy-basic/">Next</a>      
 </p>

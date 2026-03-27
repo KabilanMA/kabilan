@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Polyhedral Compilation Basics - Hands-on with ISLPy
-date: 2026-03-20 06:01:00
+date: 2026-03-22 06:01:00
 description: A concise guide to understand the Integer Set Python Library.
 tags: formatting code
 categories: notes
@@ -12,9 +12,10 @@ toc:
   beginning: false
 
 ---
-<p style="text-align: left;">
-      <a href="../iscc-python/">Previous</a>      
-</p>
+<div style="display: flex; justify-content: space-between;">
+  <span><a href="../iscc-basic/">Previous</a></span>
+  <span><a href="../islpy-validity/">Next</a></span>
+</div>
 
 
 ### Introduction
@@ -44,12 +45,12 @@ In `islpy`, the text-based syntax we learned translates directly into Python obj
 Let's recreate the 2D nested loop iteration space and an access map from our previous examples:
 
 ```python
-# 1. Define the iteration space (Set)
-nested_loop_space = isl.Set("{ [x,y] : 0 <= x < 5 and 0 <= y < 5 }")
+# define the iteration space (Set)
+nested_loop_space = isl.Set("{ [i,j] : 0 <= i < 5 and 0 <= j < 10 }")
 print(f"Iteration Space: {nested_loop_space}")
 
-# 2. Define the access relation (Map)
-access_map = isl.Map("{ [x,y] -> [z] : z = 2*x - y }")
+# define the access relation (Map)
+access_map = isl.Map("{ [i,j] -> [k] : k = 2*i - j }")
 print(f"Access Map: {access_map}")
 ```
 
@@ -60,7 +61,7 @@ To find the memory footprint, the exact array indices our loop will touch, we ne
 ```python
 memory_footprint = nested_loop_space.apply(access_map)
 print(f"Memory Footprint: {memory_footprint}")
-# Output: { [z] : -4 <= z <= 8 }
+# Output: { [k] : -9 <= k <= 8 }
 ```
 
 This mathematically proves the minimum and maximum bounds of our array access without ever executing the actual C code.
@@ -76,44 +77,63 @@ We do this by intersecting the domain (the source side) of the map with our actu
 dependency_map = isl.Map("{ [s] -> [t] : s = t - 1 }")
 
 # The actual loop bounds
-loop_space = isl.Set("{ [i] : 1 <= i < 10 }")
+loop_space = isl.Set("{ [i] : 1 <= i < 6 }")
 
 # The realistic, bounded dependency graph
 exact_dependencies = dependency_map.intersect_domain(loop_space)
+print(exact_dependencies)
+# Output: { [s] -> [t = 1 + s] : 0 < s <= 5 }
 ```
 
 ### Scheduling and Code Generation
 
-The most powerful feature of `islpy` is taking these mathematical models and gernating new optimized C code. Let's look at the __Loop Interchange__ schedule we designed previously, which swaps the inner and out loops to improve cache performance:
+The most powerful feature of `islpy` is taking these mathematical models and gernating new optimized C code structure. Let's look at the __Loop Interchange__ schedule we designed previously, which swaps the inner and out loops to improve cache performance:
 
 ```{ [x,y] -> [t1, t2] : t2 = i and t1 = j }```
 
 To generate code, ISL uses an Abstract Syntax Tree (AST) builder called `isl.AstBuilder`. Before generating the tree, we must bound our new schedule map to our iteration space, just like we did with dependencies.
 
 ```python
-# 1. Define the original space and the new interchange schedule
-original_space = isl.Set("{ [i,j] : 0 <= i < 10 and 0 <= j < 10 }")
-interchange_schedule = isl.Map("{ [i, j] -> [t1, t2] : t2 = i and t1 = j }")
+# Define the original space and the new interchange schedule
+original_space = isl.Set("{ [i,j] : 0 <= i < 5 and 0 <= j < 10 }")
+interchange_schedule = isl.Map("{ [i,j] -> [t1,t2] : t2 = i and t1 = j }")
 
-# 2. Bound the schedule to the specific loop iterations
+# Bound the schedule to the specific loop iterations
 bounded_schedule = interchange_schedule.intersect_domain(original_space)
 
-# 3. Initialize the AST Builder (with an empty context for simple loops)
+# Initialize the AST Builder (with an empty context for simple loops)
 builder = isl.AstBuild.from_context(isl.Set("{ :}"))
 
-# 4. Generate the AST Node from the bounded schedule
+# Generate the AST Node from the bounded schedule
 ast_node = builder.node_from_schedule_map(bounded_schedule)
 
-# 5. Print the generated C code!
+# Print the generated C code!
 print(ast_node.to_C_str())
 ```
 
 When you run this Python script, the AST builder outputs the newly structured C code, perfectly reflecting the swapped `i` and `j` loops based purely on our mathematical map.
 
+Output from `ast_node.to_C_str()`:
+
+```c
+for (int c0 = 0; c0 <= 9; c0 += 1)
+  for (int c1 = 0; c1 <= 4; c1 += 1)
+    (c1, c0);
+```
+
+Notice how the loop structure has been completely reordered. What were originally nested `i` and `j` loops are now swapped: `c1` (iterating over `i`) is the innermost loop and `c0` (iterating over `j`) is the outer loop. 
+To apply a different transformation, simply define a new schedule map and repeat the process—ISL handles all the complexity of generating correct, optimized code automatically. 
+The cache performance relies on how `(c1, c0)` maps to memory, but in most typical cases `"{ [i,j] -> [t1,t2] : t1=i and t2=j }"` would give better cache locality.
+
+The output is not a standalone compilable C program, but rather a structured loop skeleton generated from the AST. In a real compiler workflow, you would embed this skeleton within your actual computation body (replacing `(c1, c0)` with your kernel code) to produce a complete, optimized program. 
+This separation of concerns—where the polyhedral model handles loop structure and memory optimization independently from your actual computation—is what makes ISL-based compilers so powerful for automated performance tuning.
+
 ### Conclusion
 
-By moving from abstract mathematical syntax into `islpy`, we can programmatically analyze and rewrite software execution. We used `isl.Set` for iteration spaces, `isl.Map` for relations, `.apply()` for footprint analysis, and `isl.AstBuild` to generate optimized code. This pipeline is the exact mechanism that polyhedral compiler engines use to safely and effectively speed up complex software.
+By moving from abstract mathematical syntax into `islpy`, we can programmatically analyze and rewrite software execution. We used `isl.Set` for iteration spaces, `isl.Map` for relations, `.apply()` for footprint analysis, and `isl.AstBuild` to generate optimized code. 
+This pipeline is the exact mechanism that polyhedral compiler engines use to safely and effectively speed up complex software.
 
-<p style="text-align: left;">
-      <a href="../iscc-python/">Previous</a>      
-</p>
+<div style="display: flex; justify-content: space-between;">
+  <span><a href="../iscc-basic/">Previous</a></span>
+  <span><a href="../islpy-validity/">Next</a></span>
+</div>
